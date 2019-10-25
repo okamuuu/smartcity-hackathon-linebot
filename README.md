@@ -20,6 +20,7 @@ now secret for production
 ```
 now secret add okamuuu-linebot-prod-token xxxx-xxxx-xxxx-xxxx
 now secret add okamuuu-linebot-prod-secret xxxxxxxxxxxx
+now secret add okamuuu-clova-prod-extension-id xxxxxxxxxxxx
 ```
 
 ## development

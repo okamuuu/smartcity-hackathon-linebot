@@ -3,6 +3,7 @@
 require('dotenv').config()
 
 const line = require('@line/bot-sdk');
+const clova = require('@line/clova-cek-sdk-nodejs');
 const express = require('express');
 
 // create LINE SDK config from env variables
@@ -11,10 +12,12 @@ const config = {
   channelSecret: process.env.CHANNEL_SECRET,
 };
 
-console.log(config)
-
 // create LINE SDK client
 const client = new line.Client(config);
+
+// clova
+const clovaSkillHandler = require('./clova');
+const clovaMiddleware = clova.Middleware({ applicationId: process.env.EXTENSION_ID });
 
 // create Express app
 // about Express itself: https://expressjs.com/
@@ -35,6 +38,8 @@ app.post('/api/linebot', line.middleware(config), (req, res) => {
       res.status(500).end();
     });
 });
+
+app.post('/api/clova', clovaMiddleware, clovaSkillHandler);
 
 // event handler
 function handleEvent(event) {

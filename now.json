@@ -5,6 +5,7 @@
   "alias": "okamuuu-linebot",
   "env": {
     "CHANNEL_ACCESS_TOKEN": "@okamuuu-linebot-prod-token",
-    "CHANNEL_SECRET": "@okamuuu-linebot-prod-secret"
+    "CHANNEL_SECRET": "@okamuuu-linebot-prod-secret",
+    "EXTENSION_ID": "@okamuuu-clova-prod-extension-id"
   }
 }
