@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "builds": [{ "src": "index.js", "use": "@now/node" }],
+  "routes": [{ "src": "/api/(.*)", "dest": "index.js" }],
+  "alias": "okamuuu-linebot",
+  "env": {
+    "CHANNEL_ACCESS_TOKEN": "@okamuuu-linebot-prod-token",
+    "CHANNEL_SECRET": "@okamuuu-linebot-prod-secret"
+  }
+}
