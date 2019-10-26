@@ -43,6 +43,10 @@ app.post('/api/linebot', line.middleware(config), (req, res) => {
 
 app.post('/api/clova', clovaMiddleware, clovaSkillHandler);
 
+function _msg(text) {
+  return { type: 'text', text }
+}
+
 // event handler
 function handleEvent(event) {
   if (event.replyToken && event.replyToken.match(/^(.)\1*$/)) {
@@ -54,32 +58,29 @@ function handleEvent(event) {
     return Promise.resolve(null);
   }
 
-  console.log(event.message.text)
-  
+  if (event.message.text.match("I want noodle")) {
+    client.replyMessage(event.replyToken, [
+      _msg("とんこつラーメンが美味しいお店はこちらです"),
+      _msg("幸楽苑: 福岡県福岡市博多区博多駅中央街8-1"),
+      _msg("幸楽苑: 福岡県福岡市博多区博多駅中央街8-1"),
+      _msg("幸楽苑: 福岡県福岡市博多区博多駅中央街8-1"),
+      _msg("LINE PAY で支払いできるお店だよ!!")
+    ])
+    return
+  }
+ 
   if (event.message.text.match("はらへり")) {
-    console.log("!!")
-    // client.replyMessage(event.replyToken, {
-    //   type: 'text',
-    //   text: "美味しいご飯あるよ!"
-    // })
-    console.log(event.replyToken, getExampleFlexMessage())
     return client.replyMessage(event.replyToken, [getExampleFlexMessage()])
   } else {
-    return client.replyMessage(event.replyToken, {
+    client.replyMessage(event.replyToken, {
       type: 'text',
       text: "お腹すいたんでしょ？美味しいご飯あるよ!"
     })
+    client.replyMessage(event.replyToken, [getExampleFlexMessage()])
+    return
   }
 
-  //メッセージの内容にアイデアという文字があれば歌詞を返す
-  if(event.message.text.match("アイデア")){
-    const echo =  {type: 'text', text: "つづく日々の道の先を塞ぐ影にアイデアを~"};
-    // use reply API
-    return client.replyMessage(event.replyToken, echo);
-  }
-  else {
-    return client.replyMessage(event.replyToken, event.message);
-  }
+  return client.replyMessage(event.replyToken, event.message);
 }
 
 // listen on port

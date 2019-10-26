@@ -6,15 +6,20 @@ function getExampleFlexMessage () {
         "type": "bubble",
         "body": {
           "type": "box",
-          "layout": "horizontal",
+          "layout": "vertical",
           "contents": [
             {
               "type": "text",
-              "text": "Hello,"
+              "text": "Do you like noodle?"
             },
             {
-              "type": "text",
-              "text": "World!"
+              "type": "button",
+              "style": "link",
+              "action": {
+                "type":"message",
+                "label":"Yes",
+                "text":"I want noodle"
+              }
             }
           ]
         }
