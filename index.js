@@ -19,6 +19,8 @@ const client = new line.Client(config);
 const clovaSkillHandler = require('./clova');
 const clovaMiddleware = clova.Middleware({ applicationId: process.env.EXTENSION_ID });
 
+const { getExampleFlexMessage } = require('./flex-message-helper');
+
 // create Express app
 // about Express itself: https://expressjs.com/
 const app = express();
@@ -51,6 +53,24 @@ function handleEvent(event) {
     // ignore non-text-message event
     return Promise.resolve(null);
   }
+
+  console.log(event.message.text)
+  
+  if (event.message.text.match("はらへり")) {
+    console.log("!!")
+    // client.replyMessage(event.replyToken, {
+    //   type: 'text',
+    //   text: "美味しいご飯あるよ!"
+    // })
+    console.log(event.replyToken, getExampleFlexMessage())
+    return client.replyMessage(event.replyToken, [getExampleFlexMessage()])
+  } else {
+    return client.replyMessage(event.replyToken, {
+      type: 'text',
+      text: "お腹すいたんでしょ？美味しいご飯あるよ!"
+    })
+  }
+
   //メッセージの内容にアイデアという文字があれば歌詞を返す
   if(event.message.text.match("アイデア")){
     const echo =  {type: 'text', text: "つづく日々の道の先を塞ぐ影にアイデアを~"};
