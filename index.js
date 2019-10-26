@@ -48,7 +48,7 @@ function _msg(text) {
 }
 
 // event handler
-function handleEvent(event) {
+async function handleEvent(event) {
   if (event.replyToken && event.replyToken.match(/^(.)\1*$/)) {
       return console.log("Test hook recieved: " + JSON.stringify(event.message));
   }
@@ -59,25 +59,53 @@ function handleEvent(event) {
   }
 
   if (event.message.text.match("I want noodle")) {
-    client.replyMessage(event.replyToken, [
-      _msg("とんこつラーメンが美味しいお店はこちらです"),
-      _msg("幸楽苑: 福岡県福岡市博多区博多駅中央街8-1"),
-      _msg("幸楽苑: 福岡県福岡市博多区博多駅中央街8-1"),
-      _msg("幸楽苑: 福岡県福岡市博多区博多駅中央街8-1"),
+ 
+    //    client.replyMessage(event.replyToken, {
+    //      "type": "location",
+    //      "title": "博多ビル",
+    //      "address": "〒812-0012 福岡県福岡市博多区博多駅中央街８−１",
+    //      "latitude": 33.5881935,
+    //      "longitude": 130.4191479
+    //    })
+    
+    //:    client.replyMessage(event.replyToken, [
+    //:      _msg("とんこつラーメンが美味しいお店はこちらです"),
+    //:      _msg("幸楽苑: 福岡県福岡市博多区博多駅中央街8-1"),
+    //:      _msg("幸楽苑: 福岡県福岡市博多区博多駅中央街8-1"),
+    //:      _msg("幸楽苑: 福岡県福岡市博多区博多駅中央街8-1"),
+    //:      _msg("LINE PAY で支払いできるお店だよ!!"),
+    //:    ])
+ 
+    return client.replyMessage(event.replyToken, [
+      _msg("とんこつラーメンが美味しいお店はこちらです"), 
+    {
+      "type": "location",
+      "title": "博多ビル",
+      "address": "〒812-0012 福岡県福岡市博多区博多駅中央街８−１",
+      "latitude": 33.5881935,
+      "longitude": 130.4191479
+    }, {
+      "type": "location",
+      "title": "HAKATA MEGUSTA×峠の玄氣屋(ハカタメグスタ)",
+      "address": "〒812-0012 福岡県福岡市博多区博多駅中央街６−２",
+      "latitude": 33.586299,
+      "longitude": 130.421892
+    },
+
       _msg("LINE PAY で支払いできるお店だよ!!")
+    
     ])
-    return
   }
  
   if (event.message.text.match("はらへり")) {
     return client.replyMessage(event.replyToken, [getExampleFlexMessage()])
   } else {
-    client.replyMessage(event.replyToken, {
+    return client.replyMessage(event.replyToken, [{
       type: 'text',
       text: "お腹すいたんでしょ？美味しいご飯あるよ!"
-    })
-    client.replyMessage(event.replyToken, [getExampleFlexMessage()])
-    return
+    },
+      getExampleFlexMessage() 
+    ])
   }
 
   return client.replyMessage(event.replyToken, event.message);
@@ -88,3 +116,7 @@ const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`listening on ${port}`);
 });
+
+function sleep(ms = 0) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
