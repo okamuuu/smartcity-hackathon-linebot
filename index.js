@@ -20,9 +20,10 @@ const clovaSkillHandler = require('./clova');
 const clovaMiddleware = clova.Middleware({ applicationId: process.env.EXTENSION_ID });
 
 const { 
-  getExampleFlexMessage, 
   getRecommendFoodsFlexMessage,
-  getMotsuFlexMessage
+  getChikenFlexMessage,
+  getMotsunabeFlexMessage,
+  getFishFlexMessage
 } = require('./flex-message-helper');
 
 // create Express app
@@ -53,6 +54,7 @@ function _msg(text) {
 
 // event handler
 async function handleEvent(event) {
+  console.log(event)
   if (event.replyToken && event.replyToken.match(/^(.)\1*$/)) {
       return console.log("Test hook recieved: " + JSON.stringify(event.message));
   }
@@ -62,13 +64,28 @@ async function handleEvent(event) {
     return Promise.resolve(null);
   }
 
-  // TODO: 
-  if (event.message.text.match(/(chiken|motsunabe|fish)/)) {
+  if (event.message.text.match(/chiken/)) {
     return client.replyMessage(event.replyToken, [
-      getMotsuFlexMessage(),
+      getChikenFlexMessage(),
       _msg("LINE PAY で支払いできるお店だよ!!")
     ])
   } 
+
+  if (event.message.text.match(/motsunabe/)) {
+    return client.replyMessage(event.replyToken, [
+      getMotsunabeFlexMessage(),
+      _msg("LINE PAY で支払いできるお店だよ!!")
+    ])
+  } 
+
+  if (event.message.text.match(/fish/)) {
+    return client.replyMessage(event.replyToken, [
+      getFishFlexMessage(),
+      _msg("LINE PAY で支払いできるお店だよ!!")
+    ])
+  } 
+
+
 
   if (event.message.text.match("とんこつ")) {
     return client.replyMessage(event.replyToken, [
