@@ -64,28 +64,29 @@ async function handleEvent(event) {
     return Promise.resolve(null);
   }
 
-  if (event.message.text.match(/chiken/)) {
+  if (event.message.text.match(/(chiken|やきとり)/)) {
     return client.replyMessage(event.replyToken, [
       getChikenFlexMessage(),
-      _msg("LINE PAY で支払いできるお店だよ!!")
+      _msg("You can pay with LINE PAY."),
+      _msg("Enjoy your meal✨")
     ])
   } 
 
-  if (event.message.text.match(/motsunabe/)) {
+  if (event.message.text.match(/(motsunabe|もつなべ)/)) {
     return client.replyMessage(event.replyToken, [
       getMotsunabeFlexMessage(),
-      _msg("LINE PAY で支払いできるお店だよ!!")
+      _msg("You can pay with LINE PAY."),
+      _msg("Enjoy your meal✨")
     ])
   } 
 
-  if (event.message.text.match(/fish/)) {
+  if (event.message.text.match(/(fish|すし)/)) {
     return client.replyMessage(event.replyToken, [
       getFishFlexMessage(),
-      _msg("LINE PAY で支払いできるお店だよ!!")
+      _msg("You can pay with LINE PAY."),
+      _msg("Enjoy your meal✨")
     ])
   } 
-
-
 
   if (event.message.text.match("とんこつ")) {
     return client.replyMessage(event.replyToken, [
@@ -103,24 +104,25 @@ async function handleEvent(event) {
       "latitude": 33.586299,
       "longitude": 130.421892
     },
-    _msg("LINE PAY で支払いできるお店だよ!!")
+    _msg("Enjoy your meal✨")
     ])
   }
  
-  if (event.message.text.match("はらへり")) {
+  if (event.message.text.match(/(hungry|はらへり)/)) {
     return client.replyMessage(event.replyToken, [
-      getRecommendFoodsFlexMessage(),
       {
         type: 'text',
-        text: "博多でオススメの食べ物だよ"
-      }
+        text: "What do you feel like having?"
+      },
+      getRecommendFoodsFlexMessage()
     ])
   } else {
-    return client.replyMessage(event.replyToken, [{
-      type: 'text',
-      text: "お腹すいたんでしょ？美味しいご飯あるよ!"
-    },
-      getExampleFlexMessage() 
+    return client.replyMessage(event.replyToken, [
+      {
+        type: 'text',
+        text: "Are you hungry? I know good places."
+      },
+      getRecommendFoodsFlexMessage()
     ])
   }
 
