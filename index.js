@@ -19,7 +19,11 @@ const client = new line.Client(config);
 const clovaSkillHandler = require('./clova');
 const clovaMiddleware = clova.Middleware({ applicationId: process.env.EXTENSION_ID });
 
-const { getExampleFlexMessage, getRecommendFoodsFlexMessage } = require('./flex-message-helper');
+const { 
+  getExampleFlexMessage, 
+  getRecommendFoodsFlexMessage,
+  getMotsuFlexMessage
+} = require('./flex-message-helper');
 
 // create Express app
 // about Express itself: https://expressjs.com/
@@ -57,8 +61,15 @@ async function handleEvent(event) {
     // ignore non-text-message event
     return Promise.resolve(null);
   }
+  
+  if (event.message.text.match("もつ")) {
+    console.log(getMotsuFlexMessage())
+    return client.replyMessage(event.replyToken, [
+      getMotsuFlexMessage()
+    ])
+  }
 
-  if (event.message.text.match("I want noodle")) {
+  if (event.message.text.match("とんこつ")) {
  
     return client.replyMessage(event.replyToken, [
       _msg("とんこつラーメンが美味しいお店はこちらです"), 
