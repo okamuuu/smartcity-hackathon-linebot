@@ -8,7 +8,7 @@ now alias set https://linebot-b5pc3u011.now.sh okamuuu-linebot
 
 ## enviroments
 
-.dotenv for development
+.env for development
 
 ```
 CHANNEL_ACCESS_TOKEN=xxxx-xxxx-xxxx-xxxx
