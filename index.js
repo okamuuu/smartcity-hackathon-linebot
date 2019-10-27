@@ -19,7 +19,7 @@ const client = new line.Client(config);
 const clovaSkillHandler = require('./clova');
 const clovaMiddleware = clova.Middleware({ applicationId: process.env.EXTENSION_ID });
 
-const { getExampleFlexMessage } = require('./flex-message-helper');
+const { getExampleFlexMessage, getRecommendFoodsFlexMessage } = require('./flex-message-helper');
 
 // create Express app
 // about Express itself: https://expressjs.com/
@@ -60,22 +60,6 @@ async function handleEvent(event) {
 
   if (event.message.text.match("I want noodle")) {
  
-    //    client.replyMessage(event.replyToken, {
-    //      "type": "location",
-    //      "title": "博多ビル",
-    //      "address": "〒812-0012 福岡県福岡市博多区博多駅中央街８−１",
-    //      "latitude": 33.5881935,
-    //      "longitude": 130.4191479
-    //    })
-    
-    //:    client.replyMessage(event.replyToken, [
-    //:      _msg("とんこつラーメンが美味しいお店はこちらです"),
-    //:      _msg("幸楽苑: 福岡県福岡市博多区博多駅中央街8-1"),
-    //:      _msg("幸楽苑: 福岡県福岡市博多区博多駅中央街8-1"),
-    //:      _msg("幸楽苑: 福岡県福岡市博多区博多駅中央街8-1"),
-    //:      _msg("LINE PAY で支払いできるお店だよ!!"),
-    //:    ])
- 
     return client.replyMessage(event.replyToken, [
       _msg("とんこつラーメンが美味しいお店はこちらです"), 
     {
@@ -91,14 +75,18 @@ async function handleEvent(event) {
       "latitude": 33.586299,
       "longitude": 130.421892
     },
-
-      _msg("LINE PAY で支払いできるお店だよ!!")
-    
+    _msg("LINE PAY で支払いできるお店だよ!!")
     ])
   }
  
   if (event.message.text.match("はらへり")) {
-    return client.replyMessage(event.replyToken, [getExampleFlexMessage()])
+    return client.replyMessage(event.replyToken, [
+      getRecommendFoodsFlexMessage(),
+      {
+        type: 'text',
+        text: "博多でオススメの食べ物だよ"
+      }
+    ])
   } else {
     return client.replyMessage(event.replyToken, [{
       type: 'text',
