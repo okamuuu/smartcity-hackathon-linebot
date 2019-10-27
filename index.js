@@ -61,16 +61,16 @@ async function handleEvent(event) {
     // ignore non-text-message event
     return Promise.resolve(null);
   }
-  
-  if (event.message.text.match("もつ")) {
-    console.log(getMotsuFlexMessage())
+
+  // TODO: 
+  if (event.message.text.match(/(chiken|motsunabe|fish)/)) {
     return client.replyMessage(event.replyToken, [
-      getMotsuFlexMessage()
+      getMotsuFlexMessage(),
+      _msg("LINE PAY で支払いできるお店だよ!!")
     ])
-  }
+  } 
 
   if (event.message.text.match("とんこつ")) {
- 
     return client.replyMessage(event.replyToken, [
       _msg("とんこつラーメンが美味しいお店はこちらです"), 
     {

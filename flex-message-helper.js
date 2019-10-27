@@ -70,6 +70,15 @@ function getRecommendFoodsFlexMessage() {
                   "flex": 5
                 }]
               }]
+            },
+            {
+              "type": "button",
+              "style": "link",
+              "action": {
+                "type":"message",
+                "label":"detail",
+                "text":"chiken"
+              }
             }
           ],
           "spacing": "sm",
@@ -112,6 +121,15 @@ function getRecommendFoodsFlexMessage() {
                   "flex": 5
                 }]
               }]
+            },
+            {
+              "type": "button",
+              "style": "link",
+              "action": {
+                "type":"message",
+                "label":"detail",
+                "text":"motsunabe"
+              }
             }
           ],
           "spacing": "sm",
@@ -153,6 +171,15 @@ function getRecommendFoodsFlexMessage() {
                   "flex": 5
                 }]
               }]
+            },
+            {
+              "type": "button",
+              "style": "link",
+              "action": {
+                "type":"message",
+                "label":"detail",
+                "text":"fish"
+              }
             }
           ],
           "spacing": "sm",
@@ -289,7 +316,6 @@ function getMotsuFlexMessage() {
             "contents": [{
                 "type": "button",
                 "style": "link",
-                "height": "xs",
                 "action": {
                   "type": "uri",
                   "label": "MAP",
@@ -299,7 +325,6 @@ function getMotsuFlexMessage() {
               {
                 "type": "button",
                 "style": "link",
-                "height": "xs",
                 "action": {
                   "type": "uri",
                   "label": "WEB SITE",
@@ -430,7 +455,6 @@ function getMotsuFlexMessage() {
             "contents": [{
                 "type": "button",
                 "style": "link",
-                "height": "xs",
                 "action": {
                   "type": "uri",
                   "label": "MAP",
@@ -440,7 +464,6 @@ function getMotsuFlexMessage() {
               {
                 "type": "button",
                 "style": "link",
-                "height": "xs",
                 "action": {
                   "type": "uri",
                   "label": "WEB SITE",
@@ -571,7 +594,6 @@ function getMotsuFlexMessage() {
             "contents": [{
                 "type": "button",
                 "style": "link",
-                "height": "xs",
                 "action": {
                   "type": "uri",
                   "label": "MAP",
@@ -581,7 +603,6 @@ function getMotsuFlexMessage() {
               {
                 "type": "button",
                 "style": "link",
-                "height": "xs",
                 "action": {
                   "type": "uri",
                   "label": "WEB SITE",
