@@ -5,6 +5,7 @@ require('dotenv').config()
 const line = require('@line/bot-sdk');
 const clova = require('@line/clova-cek-sdk-nodejs');
 const express = require('express');
+const cache = require('memory-cache');
 
 // create LINE SDK config from env variables
 const config = {
@@ -54,9 +55,26 @@ function _msg(text) {
 
 // event handler
 async function handleEvent(event) {
+  const user = await client.getProfile(event.source.userId)
   console.log(event)
+  console.log(cache.get(event.source.userId))
+
   if (event.replyToken && event.replyToken.match(/^(.)\1*$/)) {
       return console.log("Test hook recieved: " + JSON.stringify(event.message));
+  }
+
+  // 位置情報
+  if (event.type === 'message' && event.message.type === 'location') {
+    cache.put(event.source.userId, {
+      address: event.message.address
+    })
+    return client.replyMessage(event.replyToken, [
+      {
+        type: 'text',
+        text: `This is recommended restaurant near by ${event.message.address}.`
+      },
+      getRecommendFoodsFlexMessage(),
+    ])
   }
 
   if (event.type !== 'message' || event.message.type !== 'text') {
@@ -64,7 +82,16 @@ async function handleEvent(event) {
     return Promise.resolve(null);
   }
 
+  const userCache = cache.get(event.source.userId)
+
+  //  if (!userCache || !userCache.location) {
+  //    return client.replyMessage(event.replyToken, [
+  //      _msg("I'm not sure where are you. Could you tell me your location?")
+  //    ])
+  //  }
+
   if (event.message.text.match(/(chiken|やきとり)/)) {
+
     return client.replyMessage(event.replyToken, [
       getChikenFlexMessage(),
       _msg("You can pay with LINE PAY."),
@@ -88,40 +115,31 @@ async function handleEvent(event) {
     ])
   } 
 
-  if (event.message.text.match("とんこつ")) {
-    return client.replyMessage(event.replyToken, [
-      _msg("とんこつラーメンが美味しいお店はこちらです"), 
-    {
-      "type": "location",
-      "title": "博多ビル",
-      "address": "〒812-0012 福岡県福岡市博多区博多駅中央街８−１",
-      "latitude": 33.5881935,
-      "longitude": 130.4191479
-    }, {
-      "type": "location",
-      "title": "HAKATA MEGUSTA×峠の玄氣屋(ハカタメグスタ)",
-      "address": "〒812-0012 福岡県福岡市博多区博多駅中央街６−２",
-      "latitude": 33.586299,
-      "longitude": 130.421892
-    },
-    _msg("Enjoy your meal✨")
-    ])
-  }
+  const defaultAddress = "福岡県福岡市中央区大名２丁目"
+  const address = userCache && userCache.address ? userCache.address : defaultAddress
  
-  const user = await client.getProfile(event.source.userId)
   if (event.message.text.match(/(hungry|はらへり)/)) {
     return client.replyMessage(event.replyToken, [
       {
         type: 'text',
         text: `What do you feel like having, ${user.displayName}?`
       },
-      getRecommendFoodsFlexMessage()
+      {
+        type: 'text',
+        text: `This is recommended restaurant near by ${address}. If you want to see other area, please send your location`
+      },
+      getRecommendFoodsFlexMessage(),
     ])
   } else {
+ 
     return client.replyMessage(event.replyToken, [
       {
         type: 'text',
         text: `${user.displayName}, are you hungry? I know good places.`
+      },
+      {
+        type: 'text',
+        text: `This is recommended restaurant near by ${address}. If you want to see other area, please send your location`
       },
       getRecommendFoodsFlexMessage()
     ])
