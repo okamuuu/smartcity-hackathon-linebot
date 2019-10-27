@@ -108,11 +108,12 @@ async function handleEvent(event) {
     ])
   }
  
+  const user = await client.getProfile(event.source.userId)
   if (event.message.text.match(/(hungry|はらへり)/)) {
     return client.replyMessage(event.replyToken, [
       {
         type: 'text',
-        text: "What do you feel like having?"
+        text: `What do you feel like having, ${user.displayName}?`
       },
       getRecommendFoodsFlexMessage()
     ])
@@ -120,7 +121,7 @@ async function handleEvent(event) {
     return client.replyMessage(event.replyToken, [
       {
         type: 'text',
-        text: "Are you hungry? I know good places."
+        text: `${user.displayName}, are you hungry? I know good places.`
       },
       getRecommendFoodsFlexMessage()
     ])
